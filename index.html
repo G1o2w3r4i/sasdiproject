@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Latest ThingSpeak Data</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+	h1
+		{
+			text-align:center;
+			font-weight:bold;
+			color:white;
+			
+}
+    body {
+        margin: 0;
+        padding: 0;
+        background-image: url('1.jpg'); /* Path to your space-themed background image */
+        background-size: cover;
+        background-repeat: no-repeat;
+        overflow: hidden;
+    }
+    #container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    table {
+        border-collapse: collapse;
+        width: 80%;
+        margin: 0 auto; /* Center the table */
+    }
+    th, td {
+        border: 1px solid #fff; /* White border */
+        padding: 8px;
+        text-align: center;
+        color: #fff; /* White text */
+        background-color: #000; /* Black background */
+    }
+    #satellite {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background-image: url('satellite_icon.png'); /* Path to your satellite icon image */
+        background-size: cover;
+        border-radius: 50%;
+        animation: rotateSatellite 10s linear infinite;
+    }
+    @keyframes rotateSatellite {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+</style>
+</head>
+<body>
+	
+<h1>GASC SKYSAILOR CUBESAT</h1>
+<div id="container">
+    <div id="latestData"></div>
+</div>
+
+<div id="satellite"></div>
+
+<script>
+$(document).ready(function(){
+    var apiKey = 'XZW3GFCKJWHAHH1F';
+    var channelId = '2443786';
+    var entryCount = 5;
+
+    var url = 'https://api.thingspeak.com/channels/' + channelId + '/feeds.json?api_key=' + apiKey + '&results=' + entryCount;
+
+    $.getJSON(url, function(data) {
+        var html = '<table>';
+        html += '<tr><th>Entry</th><th>Field 1</th><th>Field 2</th><th>Field 3</th><th>Field 4</th><th>Field 5</th><th>Field 6</th><th>Field 7</th></tr>';
+        $.each(data.feeds, function(index, entry) {
+            html += '<tr>';
+            html += '<td style="background-color: #000; color: #fff;">' + (index + 1) + '</td>';
+            html += '<td style="background-color: #000; color: #fff;">' + entry.field1 + '</td>';
+            html += '<td style="background-color: #000; color: #fff;">' + entry.field2 + '</td>';
+            html += '<td style="background-color: #000; color: #fff;">' + entry.field3 + '</td>';
+            html += '<td style="background-color: #000; color: #fff;">' + entry.field4 + '</td>';
+            html += '<td style="background-color: #000; color: #fff;">' + entry.field5 + '</td>';
+            html += '<td style="background-color: #000; color: #fff;">' + entry.field6 + '</td>';
+            html += '<td style="background-color: #000; color: #fff;">' + entry.field7 + '</td>';
+            html += '</tr>';
+        });
+        html += '</table>';
+        $('#latestData').html(html);
+    });
+});
+</script>
+
+</body>
+</html>
